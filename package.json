@@ -52,7 +52,7 @@
     "react-app-rewired": "^2.2.1"
   },
   "engines": {
-  "node": "16.x"
+    "node": "18.x"
   },
   "build": "react-app-rewired build && ls -la build",
   "homepage": "."
