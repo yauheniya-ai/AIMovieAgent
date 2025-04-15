@@ -4,7 +4,10 @@ import './App.css';
 import SearchIcon from './search.svg';
 import ReactMarkdown from 'react-markdown';
 
-const OMDB_API_URL = `http://www.omdbapi.com?apikey=${process.env.REACT_APP_OMDB_API_KEY}`;
+const OMDB_API_URL = process.env.REACT_APP_OMDB_API_KEY;
+
+console.log('OMDB_API:', OMDB_API_URL);
+console.log('API_URL:', process.env.REACT_APP_API_URL);
 
 const getAISuggestion = async (occasion) => {
   try {
