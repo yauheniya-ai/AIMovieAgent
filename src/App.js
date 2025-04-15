@@ -4,13 +4,13 @@ import './App.css';
 import SearchIcon from './search.svg';
 import ReactMarkdown from 'react-markdown';
 
-const API_URL = `http://www.omdbapi.com?apikey=${process.env.REACT_APP_OMDB_API_KEY}`;
+const OMDB_API_URL = `http://www.omdbapi.com?apikey=${process.env.REACT_APP_OMDB_API_KEY}`;
 
 const getAISuggestion = async (occasion) => {
   try {
     console.log('Sending occasion to API:', occasion);
     
-    const response = await fetch('http://localhost:3001/api/suggest', {
+    const response = await fetch(process.env.REACT_APP_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const App = () => {
 
   const searchMovies = async (title) => {
     try {
-      const response = await fetch(`${API_URL}&s=${title}`);
+      const response = await fetch(`${OMDB_API_URL}&s=${title}`);
       const data = await response.json();
       setMovies(data?.Search || []);
       setApiError(null);
