@@ -1,5 +1,7 @@
 # 🎬 Movie World – AI-Powered Movie Suggestion App
 
+![Screenshot](Screenshot.png)
+
 **Movie World** is a React-based web application that allows users to:
 - Search for movies using the OMDb API
 - Get smart movie suggestions for any occasion using an integrated AI agent powered by LangChain and Groq's LLaMA 3
