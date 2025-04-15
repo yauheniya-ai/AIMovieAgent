@@ -6,9 +6,6 @@ import ReactMarkdown from 'react-markdown';
 
 const OMDB_API_URL = process.env.REACT_APP_OMDB_API_KEY;
 
-console.log('OMDB_API:', OMDB_API_URL);
-console.log('API_URL:', process.env.REACT_APP_API_URL);
-
 const getAISuggestion = async (occasion) => {
   try {
     console.log('Sending occasion to API:', occasion);
