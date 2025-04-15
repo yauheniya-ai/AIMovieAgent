@@ -17,14 +17,14 @@
     "process": "^0.11.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-markdown": "^8.0.0",
+    "react-markdown": "^8.0.7",
     "react-scripts": "^3.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@babel/cli": "^7.27.0",
     "@babel/core": "^7.26.10",
-    "@babel/preset-env": "^7.26.9"
+    "@babel/preset-env": "^7.26.9",
+    "react-app-rewired": "^2.2.1"
   }
 }

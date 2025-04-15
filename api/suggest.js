@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
     console.error("API Error:", error);
     res.status(500).json({ 
       error: "Failed to generate suggestions",
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: error.message || JSON.stringify(error) || "Unknown error"
     });
   }
 });

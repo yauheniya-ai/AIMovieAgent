@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import './App.css';
 import SearchIcon from './search.svg';
-
+import ReactMarkdown from 'react-markdown';
 
 const API_URL = `http://www.omdbapi.com?apikey=${process.env.REACT_APP_OMDB_API_KEY}`;
 
@@ -19,13 +19,6 @@ const getAISuggestion = async (occasion) => {
       });
     
     console.log('API response status:', response.status);
-    
-    // Check if response is JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      const text = await response.text();
-      throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}`);
-    }
     
     const data = await response.json();
     console.log('API response data:', data);
@@ -49,7 +42,7 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [aiPrompt, setAiPrompt] = useState('');
-  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [aiSuggestions, setAiSuggestions] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
 
@@ -70,21 +63,14 @@ const App = () => {
     if (!aiPrompt.trim()) return;
     
     setIsLoading(true);
-    setAiSuggestions([]);
+    setAiSuggestions('');
     
     try {
       const suggestion = await getAISuggestion(aiPrompt);
       
-      // Parse the suggestion (now handles both string and array cases)
-      const suggestionList = typeof suggestion === 'string'
-        ? suggestion.split(/\d+\.\s*/)
-            .filter(item => item.trim().length > 0)
-            .map(item => item.trim())
-        : suggestion; // If it's already an array
-      
-      setAiSuggestions(suggestionList);
+      setAiSuggestions(suggestion);  // Now passing the whole response text
     } catch (error) {
-      setAiSuggestions([`Error: ${error.message}`]);
+      setAiSuggestions(`Error: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -127,15 +113,15 @@ const App = () => {
             </button>
           </div>
 
-          {/* AI Suggestions List - Now independent from search */}
-          {aiSuggestions.length > 0 && (
+          {/* AI Suggestions */}
+          {aiSuggestions && (
             <div className="ai-suggestions-window">
                 <h3>AI Movie Agent Suggestions:</h3>
                 <div className="ai-response">
-                {aiSuggestions}
+                  <ReactMarkdown>{aiSuggestions}</ReactMarkdown>
                 </div>
             </div>
-        )}
+          )}
           {apiError && <div className="error-message">{apiError}</div>}
         </div>
 
