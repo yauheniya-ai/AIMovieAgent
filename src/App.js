@@ -4,13 +4,13 @@ import './App.css';
 import SearchIcon from './search.svg';
 import ReactMarkdown from 'react-markdown';
 
-const OMDB_API_URL = process.env.REACT_APP_OMDB_API_KEY;
+const OMDB_API_URL = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}`;
 
 const getAISuggestion = async (occasion) => {
   try {
     console.log('Sending occasion to API:', occasion);
     
-    const response = await fetch(process.env.REACT_APP_API_URL, {
+    const response = await fetch('/api/suggest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
