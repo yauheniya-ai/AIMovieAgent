@@ -15,8 +15,10 @@ module.exports = async (req, res) => {
     const chatModel = new ChatOpenAI({
       temperature: 0.7,
       modelName: "llama3-8b-8192",
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      openAIBaseUrl: process.env.OPENAI_API_BASE,
+      apiKey: process.env.OPENAI_API_KEY,
+      configuration: {
+        baseURL: process.env.OPENAI_API_BASE,
+      },
     });
 
     const response = await chatModel.invoke([
