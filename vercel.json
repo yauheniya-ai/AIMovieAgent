@@ -5,26 +5,19 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build",
-        "buildCommand": "npm run build"
+        "distDir": "build"
       }
     },
     {
-      "src": "api/**/*.js",
+      "src": "api/suggest.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1",
-      "headers": {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS"
-      }
-    },
-    {
-      "handle": "filesystem"
+      "src": "/api/suggest",
+      "dest": "/api/suggest",
+      "methods": ["POST"]
     },
     {
       "src": "/(.*)",

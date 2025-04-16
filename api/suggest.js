@@ -1,21 +1,23 @@
 const { ChatOpenAI } = require("@langchain/openai");
 const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
 
-module.exports = async (req, res) => {
-  // Handle CORS and OPTIONS preflight
+export default async function handler(req, res) {
+  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Handle OPTIONS preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
   // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
-  
+
   try {
     const { occasion } = req.body;
 
@@ -29,8 +31,8 @@ module.exports = async (req, res) => {
     const chatModel = new ChatOpenAI({
       temperature: 0.7,
       modelName: "llama3-8b-8192",
-      apiKey: process.env.OPENAI_API_KEY,
       configuration: {
+        apiKey: process.env.OPENAI_API_KEY,
         baseURL: process.env.OPENAI_API_BASE,
       },
     });
@@ -42,7 +44,6 @@ module.exports = async (req, res) => {
       new HumanMessage(`${occasion}`)
     ]);
 
-    // Send the raw response as is
     res.json({
       success: true,
       suggestions: response.content
@@ -51,7 +52,7 @@ module.exports = async (req, res) => {
     console.error("API Error:", error);
     res.status(500).json({
       error: "Failed to generate suggestions",
-      details: error.message || JSON.stringify(error) || "Unknown error"
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
-};
+}
