@@ -17,7 +17,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/api/$1",
+      "headers": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS"
+      }
     },
     {
       "handle": "filesystem"

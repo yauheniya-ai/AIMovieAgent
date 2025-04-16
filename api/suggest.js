@@ -2,6 +2,20 @@ const { ChatOpenAI } = require("@langchain/openai");
 const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
 
 module.exports = async (req, res) => {
+  // Handle CORS and OPTIONS preflight
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Only allow POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+  
   try {
     const { occasion } = req.body;
 
